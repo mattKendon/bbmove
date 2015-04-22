@@ -24,3 +24,12 @@ Feature: Search for files and display their details
      When I search for files
      Then I must see "castle.s01.e01.mp4"
       And I must see "castle.s01.e02.mp4"
+
+  Scenario: Search looks through sub folders to find all video files
+    Given there are some files
+      | filename                      |
+      | subfolder1/castle.s01.e01.mp4 |
+      | subfolder2/castle.s01.e02.mp4 |
+     When I search for files
+     Then I must see "castle.s01.e01.mp4"
+      And I must see "castle.s01.e02.mp4"
