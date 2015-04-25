@@ -39,10 +39,10 @@ class Video:
 
     @property
     def season(self):
-        return self._match.group('season')
+        return int(self._match.group('season'))
 
     @property
     def episode(self):
-        return self._match.group('episode')
+        return int(self._match.group('episode'))
 
 
