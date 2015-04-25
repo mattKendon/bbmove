@@ -45,4 +45,17 @@ class Video:
     def episode(self):
         return int(self._match.group('episode'))
 
+    @property
+    def title_folder(self):
+        return self._match.group('title').replace('.', '_').replace('the_', '')
+
+    @property
+    def season_folder(self):
+        padded_number = str(int(self._match.group('season'))).zfill(2)
+        return "season_{0}".format(padded_number)
+
+    @property
+    def folder_tree(self):
+        return os.path.join(self.title_folder, self.season_folder)
+
 

@@ -6,18 +6,18 @@ Feature: Parse filenames to determine TV Show metadata
       | filename           |
       | castle.s01.e02.mp4 |
      When I parse the files
-     Then I should see the title "Castle"
+     Then I must see the title "Castle"
 
   Scenario: It can determine the TV Show season number
     Given there are some files
       | filename           |
       | castle.s01.e02.mp4 |
      When I parse the files
-     Then I should see the season number "1"
+     Then I must see the season number "1"
 
   Scenario: It can determine the TV Show episode number
     Given there are some files
       | filename           |
       | castle.s01.e02.mp4 |
      When I parse the files
-     Then I should see the episode number "2"
+     Then I must see the episode number "2"
