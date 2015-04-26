@@ -18,5 +18,8 @@ setup(
     description='Import tvshows from download to folder on computer with filename change',
     long_description=readme(),
     tests_require=['behave'],
-    requires=['click']
+    requires=['click'],
+    entry_points={
+        'console_scripts': ['bbmove=bbmove.cli:cli'],
+    }
 )
