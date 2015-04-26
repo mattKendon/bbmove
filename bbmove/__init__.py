@@ -41,7 +41,11 @@ class VideoNoMatchException(Exception):
 class Video:
     """Class that parses a filename and gets certain metadata from it"""
 
-    TV_SHOW_PATTERN = '^(?P<title>[\w\.]*)\.s(?P<season>[0-9]{1,2})\.e(?P<episode>[0-9]{1,2})'
+    TV_SHOW_NAME_PATTERN = '^(?P<title>[\w\.]*)\.'
+    TV_SHOW_PATTERNS = [
+        TV_SHOW_NAME_PATTERN + 's(?P<season>[0-9]{1,2})\.?e(?P<episode>[0-9]{1,2})',
+        TV_SHOW_NAME_PATTERN + '(?P<season>[0-9])(?P<episode>[0-9]{1,2})'
+    ]
 
     def __init__(self, filepath):
         self.filepath = filepath
@@ -49,10 +53,11 @@ class Video:
         self._match = self._match()
 
     def _match(self):
-        match = re.match(self.TV_SHOW_PATTERN, self.filename, re.IGNORECASE)
-        if match is None:
-            raise VideoNoMatchException
-        return match
+        for pattern in self.TV_SHOW_PATTERNS:
+            match = re.match(pattern, self.filename, re.IGNORECASE)
+            if match is not None:
+                return match
+        raise VideoNoMatchException
 
     @property
     def title(self):
