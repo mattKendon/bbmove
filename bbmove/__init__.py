@@ -1,3 +1,4 @@
+import shutil
 
 __author__ = 'Matthew'
 
@@ -6,12 +7,32 @@ import fnmatch
 import re
 
 
+def touch(path, dir_only=False):
+    basedir = os.path.dirname(path)
+    if not os.path.exists(basedir):
+        os.makedirs(basedir)
+    if not dir_only:
+        with open(path, 'a'):
+            os.utime(path, None)
+
+
 def search(path):
     files = []
     for root, dirnames, filenames in os.walk(path):
         for filename in fnmatch.filter(filenames, '*.mp4'):
-            files.append(filename)
+            files.append(os.path.join(root, filename))
     return files
+
+
+def move(path, tv_show_path):
+    for filename in search(path):
+        try:
+            file = Video(filename)
+        except VideoNoMatchException as e:
+            continue
+        else:
+            file.move(tv_show_path)
+
 
 
 class VideoNoMatchException(Exception):
@@ -23,8 +44,9 @@ class Video:
 
     TV_SHOW_PATTERN = '^(?P<title>[\w\.]*)\.s(?P<season>[0-9]{1,2})\.e(?P<episode>[0-9]{1,2})'
 
-    def __init__(self, filename):
-        self.filename = filename
+    def __init__(self, filepath):
+        self.filepath = filepath
+        self.filename = os.path.basename(filepath)
         self._match = self._match()
 
     def _match(self):
@@ -58,4 +80,7 @@ class Video:
     def folder_tree(self):
         return os.path.join(self.title_folder, self.season_folder)
 
-
+    def move(self, base_folder):
+        target = os.path.join(base_folder, self.folder_tree, self.filename)
+        touch(target)
+        shutil.move(self.filepath, target)
