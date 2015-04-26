@@ -9,7 +9,13 @@ from bbmove import cli
 @when('I run the search command')
 def step_impl(context):
     context.runner = CliRunner()
-    context.search_results = context.runner.invoke(cli.cli, ['search', 'test'])
+    context.search_results = context.runner.invoke(cli.cli, ['search', context.test_dir])
+
+
+@when('I run the move command')
+def step_impl(context):
+    context.runner = CliRunner()
+    context.search_results = context.runner.invoke(cli.cli, ['move', context.test_dir, context.tv_show_dir])
 
 
 @then('I must find "{filename}" in the results')

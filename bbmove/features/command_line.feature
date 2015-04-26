@@ -36,3 +36,10 @@ Feature: The command line script
       | castle.s01.e02.mp4 |
      When I run the search command
      Then I must find "Destination: castle\season_01\castle.s01.e02.mp4" in the results
+
+  Scenario: Command line move will move files
+    Given there are some files
+      | filename           |
+      | castle.s01.e02.mp4 |
+     When I run the move command
+     Then I must see "castle.s01.e02.mp4" in the tv show folder
