@@ -17,5 +17,6 @@ setup(
     author_email='mkendon@gmail.com',
     description='Import tvshows from download to folder on computer with filename change',
     long_description=readme(),
-    tests_require=['behave']
+    tests_require=['behave'],
+    requires=['click']
 )
