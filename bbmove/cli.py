@@ -17,10 +17,15 @@ def cli():
 def move(source, destination, quiet):
     files = bbmove.search(source)
     for file in files:
-        if quiet or click.confirm('Do you want to move {0}?'.format(file.filename)):
-            file.move(destination)
-            if os.path.exists(os.path.join(destination, file.folder_tree, file.filename)) and not quiet:
-                click.echo('Moved {0} to {1}'.format(file.filename, file.folder_tree))
+        try:
+            file = bbmove.Video(file)
+        except bbmove.VideoNoMatchException as e:
+            continue
+        else:
+            if quiet or click.confirm('Do you want to move {0}?'.format(file.filename)):
+                file.move(destination)
+                if os.path.exists(os.path.join(destination, file.folder_tree, file.filename)) and not quiet:
+                    click.echo('Moved {0} to {1}'.format(file.filename, file.folder_tree))
 
 
 @cli.command()
