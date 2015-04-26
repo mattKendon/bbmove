@@ -34,7 +34,6 @@ def move(path, tv_show_path):
             file.move(tv_show_path)
 
 
-
 class VideoNoMatchException(Exception):
     """This exceptions is raised if a filename cannot be turned into a title, season and episode list"""
 
